@@ -26,7 +26,7 @@ if (isset($_GET["from"]) && validateEmail($_GET["from"])) {
 	$message = wordwrap($message, 70);
 	
 	// send mail ( to, subjext, message, headers )
-	if(mail(,$subject,$message,"From: $from\n")){
+	if(mail($to_email,$subject,$message,"From: $from\n")){
 			echo $callback."([{status:'success',from:'".$from."',subject:'".$subject."',message:'".$message."'}])";
 	} else {
 			echo $callback."([{status:'failed to send',message:'Couldn\'t send mail.'}])";
