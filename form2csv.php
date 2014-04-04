@@ -24,8 +24,11 @@ if (isset($_GET["from"]) && validateEmail($_GET["from"])) {
 	// message lines should not exceed 70 characters (PHP rule), so wrap it
 	$message = wordwrap($message, 70);
 
-	$fp = fopen('data.csv', 'w');
-        fputcsv($fp, $from . "," . $subject . "," . $message);
+	$fp = fopen('data.csv', 'a');
+        if (fwrite($fp, $from . "," . $subject . "," . $message) === false){
+        	echo $callback."([{status:'invalid email',message:'Invalid email address.'}])";
+        	exit;	
+        } 
     	fclose($fp);
 
 } else {
