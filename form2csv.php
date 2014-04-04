@@ -26,7 +26,7 @@ if (isset($_GET["from"]) && validateEmail($_GET["from"])) {
 
 	$fp = fopen('data.csv', 'a');
         if (fwrite($fp, $from . "," . $subject . "," . $message) === false){
-        	echo $callback."([{status:'invalid email',message:'Invalid email address.'}])";
+        	echo $callback."([{status:'failed to send',message:'Couldn\'t write message.'}])";
         	exit;	
         } 
         echo $callback."([{status:'success',from:'".$from."',subject:'".$subject."',message:'".$message."'}])";
