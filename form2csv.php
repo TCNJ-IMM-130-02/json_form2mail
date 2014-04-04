@@ -29,6 +29,7 @@ if (isset($_GET["from"]) && validateEmail($_GET["from"])) {
         	echo $callback."([{status:'invalid email',message:'Invalid email address.'}])";
         	exit;	
         } 
+        echo $callback."([{status:'success',from:'".$from."',subject:'".$subject."',message:'".$message."'}])";
     	fclose($fp);
 
 } else {
