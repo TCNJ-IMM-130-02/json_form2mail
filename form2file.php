@@ -24,7 +24,7 @@ if (isset($_GET["from"]) && validateEmail($_GET["from"])) {
 	// message lines should not exceed 70 characters (PHP rule), so wrap it
 	$message = wordwrap($message, 70);
 	
-	$s = $from . "\t" . $subject . "\t" . $message . "\r\n";
+	$s = $from . "\t" . $subject . "\t" . $message . "\r\n"; // tab delimit the columns in case messages contain comas
 	
 	$filename='data.xls';
 	
