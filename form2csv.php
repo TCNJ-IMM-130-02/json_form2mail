@@ -23,14 +23,16 @@ if (isset($_GET["from"]) && validateEmail($_GET["from"])) {
 
 	// message lines should not exceed 70 characters (PHP rule), so wrap it
 	$message = wordwrap($message, 70);
+	
+	$s = $from . "\t" . $subject . "\t" . $message . "\r\n";
 
-	$fp = fopen('data.csv', 'a');
-        if (fwrite($fp, $from . "," . $subject . "," . $message) === false){
-        	echo $callback."([{status:'failed to send',message:'Couldn\'t write message.'}])";
-        	exit;	
-        } 
-        echo $callback."([{status:'success',from:'".$from."',subject:'".$subject."',message:'".$message."'}])";
-    	fclose($fp);
+	$fp = fopen('./data.xls', 'a');
+    if (fwrite($fp, $s) === false){
+       echo $callback."([{status:'failed to send',message:'Couldn\'t write message.'}])";
+       exit;	
+    } 
+    echo $callback."([{status:'success',from:'".$from."',subject:'".$subject."',message:'".$message."'}])";
+    fclose($fp);
 
 } else {
 	echo $callback."([{status:'invalid email',message:'Invalid email address.'}])";
