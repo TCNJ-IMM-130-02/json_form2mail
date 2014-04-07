@@ -25,15 +25,23 @@ if (isset($_GET["from"]) && validateEmail($_GET["from"])) {
 	$message = wordwrap($message, 70);
 	
 	$s = $from . "\t" . $subject . "\t" . $message . "\r\n";
-
-	$fp = fopen('./data.xls', 'a');
-    if (fwrite($fp, $s) === false){
-       echo $callback."([{status:'failed to send',message:'Couldn\'t write message.'}])";
-       exit;	
-    } 
-    echo $callback."([{status:'success',from:'".$from."',subject:'".$subject."',message:'".$message."'}])";
-    fclose($fp);
-
+	
+	$filename='data.xls';
+	
+	if (is_writable($filename)) { // make sure the file exists and permissions are writeable
+		
+		$fp = fopen($filename, 'a'); // make sure we can open the file
+		
+		if (fwrite($fp, $s) === false){ // make sure we can write the file
+			echo $callback."([{status:'failed to send',message:'Couldn\'t write message.'}])";	
+		} else {
+			echo $callback."([{status:'success',from:'".$from."',subject:'".$subject."',message:'".$message."'}])";
+		}
+		
+		fclose($fp);
+	} else {
+		echo $callback."([{status:'failed to send',message:'File not writable.'}])";	
+	}
 } else {
 	echo $callback."([{status:'invalid email',message:'Invalid email address.'}])";
 }
